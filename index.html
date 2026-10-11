@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Elevator Music</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Limelight&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main class="creator">
+    <header class="marquee">
+      <p class="marquee__stamp">11:42 PM &middot; Downtown</p>
+      <h1 class="marquee__title">Elevator Music</h1>
+      <p class="marquee__sub">Dress for the night</p>
+    </header>
+
+    <section class="stage" aria-label="Your character">
+      <div class="stage__fan" aria-hidden="true"></div>
+      <canvas id="stage" class="stage__sprite" width="32" height="48"></canvas>
+      <div class="stage__ground" aria-hidden="true"></div>
+    </section>
+
+    <section class="wardrobe" aria-label="Wardrobe">
+      <div id="tabs" class="tabs" role="tablist"></div>
+      <div id="panel" class="panel"></div>
+    </section>
+
+    <footer class="exit">
+      <button id="enter" class="exit__button" type="button">Enter the city</button>
+      <button id="skip" class="exit__skip" type="button" hidden>Go straight to the cafe</button>
+    </footer>
+  </main>
+
+  <section id="city" class="city" aria-label="The city" hidden>
+    <div id="screen" class="city__screen">
+    <div class="city__frame">
+      <canvas id="street" class="city__street" width="320" height="180"></canvas>
+
+      <div class="hud">
+        <p class="hud__clock"><span id="hud-time"></span><span id="hud-place"></span></p>
+        <p id="hud-goal" class="hud__goal"></p>
+      </div>
+      <p id="hud-hint" class="hud__hint"></p>
+
+      <div id="card" class="card" hidden>
+        <p id="card-time" class="card__time"></p>
+        <p id="card-place" class="card__place"></p>
+      </div>
+
+      <div id="dialog" class="dialog" hidden>
+        <p id="dialog-who" class="dialog__who"></p>
+        <p id="dialog-text" class="dialog__text"></p>
+        <div id="dialog-choices" class="dialog__choices"></div>
+        <p id="dialog-hint" class="dialog__hint">Space &#9656;</p>
+      </div>
+
+      <div id="minigame" class="minigame" hidden></div>
+
+      <div id="lift" class="minigame lift" hidden></div>
+
+      <div id="decor" class="minigame decor" hidden></div>
+
+      <button id="fullscreen" class="fullscreen" type="button" aria-label="Full screen" title="Full screen" hidden>
+        <svg viewBox="0 0 12 12" aria-hidden="true">
+          <path class="fullscreen__grow" d="M1 4V1h3M8 1h3v3M11 8v3H8M4 11H1V8"/>
+          <path class="fullscreen__shrink" d="M1 4h3V1M8 1v3h3M11 8H8v3M4 11V8H1"/>
+        </svg>
+      </button>
+    </div>
+    </div>
+
+    <div class="pad">
+      <button id="pad-left" class="pad__button" type="button" aria-label="Walk left">&#9664;</button>
+      <button id="pad-right" class="pad__button" type="button" aria-label="Walk right">&#9654;</button>
+      <button id="pad-talk" class="pad__button pad__button--talk" type="button">Talk</button>
+      <button id="city-back" class="pad__button pad__button--quiet" type="button">Wardrobe</button>
+    </div>
+    <div id="player" class="player" hidden>
+      <p id="player-title" class="player__title"></p>
+      <div id="player-frame"></div>
+      <p id="player-note" class="player__note"></p>
+    </div>
+    <p class="city__keys">Arrow keys or A / D to walk. Space to talk, pick things up, use stairs and sit down.</p>
+  </section>
+
+  <script src="js/core.js"></script>
+  <script src="js/palette.js"></script>
+  <script src="js/sprites/body.js"></script>
+  <script src="js/sprites/hair.js"></script>
+  <script src="js/sprites/tops.js"></script>
+  <script src="js/sprites/bottoms.js"></script>
+  <script src="js/sprites/shoes.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/renderer.js"></script>
+  <script src="js/creator.js"></script>
+  <script src="js/sound.js"></script>
+  <script src="js/city/quests.js"></script>
+  <script src="js/city/scene.js"></script>
+  <script src="js/city/minigames.js"></script>
+  <script src="js/cafe/floors.js"></script>
+  <script src="js/cafe/rooms.js"></script>
+  <script src="js/city/game.js"></script>
+</body>
+</html>

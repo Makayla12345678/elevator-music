@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Elevator Music: sprite gallery</title>
+  <style>
+    body { margin: 0; padding: 20px; background: #231c2b; color: #e8dfcc; font: 13px/1.4 'Courier New', monospace; }
+    h2 { margin: 24px 0 10px; color: #c9a45c; font-size: 14px; text-transform: uppercase; letter-spacing: 0.15em; }
+    .row { display: flex; flex-wrap: wrap; gap: 14px; }
+    figure { margin: 0; text-align: center; }
+    canvas { width: 128px; height: 192px; image-rendering: pixelated; background: #17141d; display: block; margin-bottom: 4px; }
+  </style>
+</head>
+<body>
+  <p>Every option worn on the default character. The right-hand figure of each pair is the bounce frame.</p>
+  <div id="sheet"></div>
+
+  <script src="js/core.js"></script>
+  <script src="js/palette.js"></script>
+  <script src="js/sprites/body.js"></script>
+  <script src="js/sprites/hair.js"></script>
+  <script src="js/sprites/tops.js"></script>
+  <script src="js/sprites/bottoms.js"></script>
+  <script src="js/sprites/shoes.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/renderer.js"></script>
+  <script>
+    (function (CC) {
+      var sheet = document.getElementById('sheet');
+
+      function figure(row, look, label, bob) {
+        var fig = document.createElement('figure');
+        var canvas = document.createElement('canvas');
+        canvas.width = CC.W;
+        canvas.height = CC.H;
+        CC.renderer.draw(canvas, CC.renderer.compose(look), { bob: bob });
+        fig.appendChild(canvas);
+        fig.appendChild(document.createTextNode(label));
+        row.appendChild(fig);
+      }
+
+      function section(title, key, list) {
+        var heading = document.createElement('h2');
+        heading.textContent = title;
+        sheet.appendChild(heading);
+        var row = document.createElement('div');
+        row.className = 'row';
+        sheet.appendChild(row);
+        list.forEach(function (option) {
+          var look = Object.assign({}, CC.state.look);
+          look[key] = option.id;
+          figure(row, look, option.name, false);
+          figure(row, look, '(bounce)', true);
+        });
+      }
+
+      section('Tops', 'top', CC.sprites.top);
+      section('Bottoms', 'bottom', CC.sprites.bottom);
+      section('Shoes', 'shoes', CC.sprites.shoes);
+      section('Hair', 'hair', CC.sprites.hair);
+      section('Clothing colours (on the top)', 'topColor', CC.palette.cloth);
+      section('Skin', 'skin', CC.palette.skin);
+    })(window.CozyCafe);
+  </script>
+</body>
+</html>
