@@ -39,6 +39,14 @@
     <div class="city__frame">
       <canvas id="street" class="city__street" width="320" height="180"></canvas>
 
+      <div id="timer" class="timer" role="group" hidden aria-label="Study timer">
+        <button id="timer-less" class="timer__button" type="button" aria-label="Five minutes less">&minus;</button>
+        <span id="timer-time" class="timer__time" role="timer">25:00</span>
+        <button id="timer-more" class="timer__button" type="button" aria-label="Five minutes more">+</button>
+        <button id="timer-go" class="timer__button" type="button" aria-label="Start timer">&#9654;</button>
+        <button id="timer-reset" class="timer__button" type="button" aria-label="Reset timer">&#8634;</button>
+      </div>
+
       <div class="hud">
         <p class="hud__clock"><span id="hud-time"></span><span id="hud-place"></span></p>
         <p id="hud-goal" class="hud__goal"></p>
@@ -97,6 +105,7 @@
   <script src="js/renderer.js"></script>
   <script src="js/creator.js"></script>
   <script src="js/sound.js"></script>
+  <script src="js/timer.js"></script>
   <script src="js/city/quests.js"></script>
   <script src="js/city/scene.js"></script>
   <script src="js/city/minigames.js"></script>

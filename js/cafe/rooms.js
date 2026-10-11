@@ -245,10 +245,9 @@
   var RAP_SNEAKERS = 302;
   // The mural's letters, five cells across and seven down: [rows, how far it sits below the line].
   var RAP_MURAL = [
-    [['11111', '10000', '10000', '10000', '10000', '10000', '11111'], 0],
-    [['11111', '10001', '10001', '10001', '10001', '10001', '11111'], 2],
-    [['11111', '00001', '00010', '00100', '01000', '10000', '11111'], -1],
-    [['10001', '10001', '01010', '00100', '00100', '00100', '00100'], 2]
+    [['11111', '10001', '10001', '11111', '10100', '10010', '10001'], 0],
+    [['11111', '10001', '10001', '11111', '10001', '10001', '10001'], 2],
+    [['11111', '10001', '10001', '11111', '10000', '10000', '10000'], 0]
   ];
 
   // A throw-up piece in chunky letters: drop shadow, bone outline, two-tone fill, drips.
@@ -267,11 +266,11 @@
     pass(function (px, py) { rect(ctx, px - 1, py - 1, cell + 2, cell + 2, C.bone); });
     pass(function (px, py, r) { rect(ctx, px, py, cell, cell, r < 4 ? C.violet : C.neon); });
     pass(function (px, py, r) { if (r === 0) rect(ctx, px, py, cell, 1, C.lilac); });
-    [[2, 7, C.neon], [29, 10, C.neon], [43, 5, C.neon], [50, 8, C.neon], [57, 4, C.violet], [82, 9, C.violet]].forEach(function (drip) {
+    [[2, 7, C.neon], [17, 4, C.neon], [25, 10, C.neon], [42, 6, C.neon], [50, 8, C.neon]].forEach(function (drip) {
       rect(ctx, x + drip[0], y + 29, 1, drip[1], drip[2]);
       rect(ctx, x + drip[0], y + 29 + drip[1], 1, 1, C.bone);
     });
-    rect(ctx, x + 29, y - 6, 11, 3, C.lit);                          // a crown over the O
+    rect(ctx, x + 29, y - 6, 11, 3, C.lit);                          // a crown over the A
     [0, 5, 10].forEach(function (spike) { rect(ctx, x + 29 + spike, y - 9, 1, 3, C.lit); });
     rect(ctx, x + 34, y - 5, 1, 1, C.red);
   }
@@ -371,7 +370,7 @@
       rect(ctx, star[0], star[1] - 2, 1, 5, C.bone);
       rect(ctx, star[0] - 2, star[1], 5, 1, C.bone);
     });
-    mural(ctx, 84, 60);
+    mural(ctx, 96, 60);
     flyers(ctx, 298, 76);
     streetCorner(ctx);
 

@@ -125,7 +125,7 @@
         prompt: 'Not bad at all! So, what should I play for you?',
         options: [
           { text: 'Something slow and jazzy', genre: 'jazz' },
-          { text: 'Something everyone can sing', genre: 'pop' },
+          { text: 'Something bouncy', genre: 'pop' },
           { text: 'Something loud, with guitars', genre: 'rock' },
           { text: 'Something smooth, with a groove', genre: 'hiphop' },
           { text: 'Something with fast rhymes', genre: 'rap' }

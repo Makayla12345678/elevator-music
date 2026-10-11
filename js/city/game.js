@@ -901,6 +901,7 @@
 
     setText('hud-goal', goalText());
     setText('hud-hint', mode === 'walk' ? hintFor(nearby()) : mode === 'sit' ? 'Space: ' + cafe.text.stand : '');
+    $('timer').hidden = !floorOf(area); // the study timer only shows up on the music floors
   }
 
   function frame(time) {

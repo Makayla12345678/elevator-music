@@ -418,6 +418,7 @@ button:focus-visible {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  max-width: 30%;
   color: var(--brass);
 }
 
@@ -429,6 +430,53 @@ button:focus-visible {
   line-height: 1.5;
   color: var(--bone);
 }
+
+/* ---------- Study timer ---------- */
+
+.timer {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+  padding: 0.3em;
+  background: rgba(13, 11, 17, 0.8);
+  border: 1px solid var(--brass-dim);
+  font-size: clamp(9px, 1.5vw, 13px);
+  white-space: nowrap;
+}
+
+/* The goal stops short of the timer while it is up. */
+.timer:not([hidden]) ~ .hud .hud__goal { max-width: 36%; }
+
+.timer__time {
+  min-width: 4.2em;
+  padding: 0 0.2em;
+  text-align: center;
+  font-size: 1.3em;
+  letter-spacing: 0.08em;
+  color: var(--bone);
+}
+
+.timer__button {
+  width: 1.8em;
+  height: 1.8em;
+  padding: 0;
+  line-height: 1;
+  background: none;
+  border: 1px solid var(--brass-dim);
+  color: var(--brass);
+}
+
+.timer__button:hover { border-color: var(--brass); color: var(--lamp); }
+.timer__button:disabled { opacity: 0.35; cursor: default; }
+.timer.is-running .timer__time { color: var(--lamp); }
+.timer.is-done { border-color: var(--lamp); }
+.timer.is-done .timer__time { color: var(--lamp); animation: timer-blink 1s steps(2, start) infinite; }
+
+@keyframes timer-blink { to { visibility: hidden; } }
 
 .card {
   position: absolute;
