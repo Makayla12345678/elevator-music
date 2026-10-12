@@ -25,7 +25,7 @@
     },
     {
       id: 'rock', number: 3, name: 'Indie', color: '#c8443f', open: true,
-      playlist: 'https://open.spotify.com/playlist/37i9dQZF1DX2Nc3B70tvx0',
+      playlist: 'https://open.spotify.com/playlist/37i9dQZF1EQqkOPvHGajmW',
       goal: 'The amps are on. The band is loud.'
     },
     {
@@ -35,7 +35,7 @@
     },
     {
       id: 'rap', number: 1, name: 'Rap', color: '#5fc48a', open: true,
-      playlist: 'https://open.spotify.com/playlist/37i9dQZF1DX0XUsuxWHRQd',
+      playlist: 'https://open.spotify.com/playlist/37i9dQZF1EIgbjUtLiWmHt',
       goal: 'The beat is on. The cypher is open.'
     }
   ];
