@@ -13,6 +13,12 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+  <aside id="notice" class="notice" aria-label="Spotify sign-in" hidden>
+    <p class="notice__text" role="status">Please sign in to Spotify so you can have the full experience</p>
+    <a class="notice__link" href="https://accounts.spotify.com/login" target="_blank" rel="noopener">Sign in to Spotify</a>
+    <button id="notice-close" class="notice__close" type="button" aria-label="Close this message" title="Close">&times;</button>
+  </aside>
+
   <main class="creator">
     <header class="marquee">
       <p class="marquee__stamp">11:42 PM &middot; Downtown</p>
@@ -109,6 +115,7 @@
   <script src="js/creator.js"></script>
   <script src="js/sound.js"></script>
   <script src="js/timer.js"></script>
+  <script src="js/banner.js"></script>
   <script src="js/city/quests.js"></script>
   <script src="js/city/scene.js"></script>
   <script src="js/city/minigames.js"></script>
