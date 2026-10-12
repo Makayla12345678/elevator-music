@@ -35,7 +35,7 @@
     },
     {
       id: 'rap', number: 1, name: 'Rap', color: '#5fc48a', open: true,
-      playlist: 'https://open.spotify.com/playlist/37i9dQZF1EIgbjUtLiWmHt',
+      playlist: 'https://open.spotify.com/playlist/3rRR3uuNMbtnQBe6EOvHK1',
       goal: 'The beat is on. The cypher is open.'
     }
   ];
