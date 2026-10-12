@@ -46,6 +46,7 @@
     if (!remaining()) {
       stop();
       done = true;
+      document.dispatchEvent(new CustomEvent('timer:done')); // the music listens for this
       CHIME.forEach(function (frequency, i) {
         setTimeout(function () { CC.sound.note(frequency, 0.6); }, i * 180);
       });

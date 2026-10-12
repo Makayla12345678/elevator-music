@@ -403,6 +403,12 @@
   embedScript.async = true;
   document.head.appendChild(embedScript);
 
+  // When the study timer runs out, pause the music so the chime is heard.
+  // Only the scripted player can be told to pause; the plain one is left alone.
+  document.addEventListener('timer:done', function () {
+    if (playing) playing.pause();
+  });
+
   function setMusic(floor) {
     var frame = $('player-frame');
     var id = floor && (floor.playlist.match(/playlist\/([A-Za-z0-9]+)/) || [])[1];
