@@ -124,7 +124,7 @@
   CC.cafe.npcs = {
     host: {
       name: 'Celeste', area: 'lobby', x: 112,
-      idle: 'Hey, welcome in! The doorman told me you\'re into {guess}, so I think you\'ll love it here. The elevator\'s just over there on your right.',
+      idle: 'Hey, welcome in! The doorman told me you\'re into {guess}, so you\'re going to love it here. The elevator\'s just over there on your right.',
       look: { skin: 'bronze', hair: 'long', hairColor: 'ink', top: 'flapper-dress', topColor: 'mustard', bottom: 'pencil-skirt', bottomColor: 'ink', shoes: 't-straps', shoesColor: 'ink' }
     },
     bartender: {
@@ -146,7 +146,7 @@
     },
     singer: {
       name: 'Odessa', area: 'jazz', x: 408, raise: 8, behind: true, plays: 'mic',
-      idle: 'Oh, hi! Sorry, I\'m just catching my breath between songs. Is there anything you want to hear? I can\'t promise, but I\'ll try.',
+      idle: 'Oh, hi! I\'m just catching my breath between songs. Is there anything you want to hear? Name it and I\'ll sing it for you.',
       look: { skin: 'espresso', hair: 'bob', hairColor: 'ink', top: 'slip-dress', topColor: 'oxblood', bottom: 'pencil-skirt', bottomColor: 'ink', shoes: 't-straps', shoesColor: 'bone' }
     },
     bassist: {
@@ -177,23 +177,23 @@
     },
     dancer: {
       name: 'Bea', area: 'pop', x: 346,
-      idle: 'I love this song so much! Come and dance with me. Nobody\'s watching, I promise.',
+      idle: 'I love this song so much! Come and dance with me. This floor was made for it.',
       look: { skin: 'umber', hair: 'curls', hairColor: 'violet', top: 'big-tee', topColor: 'bone', bottom: 'baggy-shorts', bottomColor: 'denim', shoes: 'high-tops', shoesColor: 'bone' }
     },
     popstar: {
       name: 'Stella', area: 'pop', x: 410, raise: 8, behind: true, plays: 'mic',
-      idle: 'Hi! Thanks for coming over. Are you having fun? I\'m a little nervous, there are so many people here tonight.',
+      idle: 'Hi! Thanks for coming over. Are you having fun? I love a full room, and there are so many people here tonight.',
       look: { skin: 'sand', hair: 'long', hairColor: 'brass', top: 'slip-dress', topColor: 'plum', bottom: 'pencil-skirt', bottomColor: 'plum', shoes: 't-straps', shoesColor: 'bone' }
     },
     keys: {
       name: 'Kit', area: 'pop', x: 448, raise: 8, behind: true, plays: 'keytar',
-      idle: 'Yeah, it\'s a keytar. My dad had one in the eighties. I think it\'s kind of cool, honestly.',
+      idle: 'Yeah, it\'s a keytar. My dad had one in the eighties. It\'s the coolest thing I own, honestly.',
       look: { skin: 'espresso', hair: 'mohawk', hairColor: 'absinthe', top: 'crewneck', topColor: 'bone', bottom: 'ripped-jeans', bottomColor: 'ink', shoes: 'combat-boots', shoesColor: 'ink' }
     },
     merch: {
       name: 'Wren', area: 'rock', x: 238, behind: true, raise: 12,
       menu: {
-        prompt: 'Hey! Sorry, it\'s so loud in here. What do you want to drink?',
+        prompt: 'Hey! Loud in here, right? I love it. What do you want to drink?',
         options: [
           { text: 'A root beer', carry: 'Root beer', color: '#4a2a18', hot: false },
           { text: 'A black coffee', carry: 'Black coffee', color: '#2a1a12', hot: true },
@@ -208,22 +208,22 @@
     },
     fan: {
       name: 'Sage', area: 'rock', x: 350,
-      idle: 'I\'ve seen this band four times now. Nobody at school has even heard of them. That\'s kind of the best part.',
+      idle: 'I\'ve seen this band four times now. Nobody at school has even heard of them. That\'s the best part.',
       look: { skin: 'bronze', hair: 'bob', hairColor: 'absinthe', top: 'band-tee', topColor: 'ink', bottom: 'plaid-skirt', bottomColor: 'oxblood', shoes: 'combat-boots', shoesColor: 'ink' }
     },
     frontman: {
       name: 'Rhett', area: 'rock', x: 408, raise: 8, behind: true, plays: 'mic',
-      idle: 'Hi! Thanks for coming. We wrote that last one in my mum\'s garage. Was it too loud? It was probably too loud.',
+      idle: 'Hi! Thanks for coming. We wrote that last one in my mum\'s garage. Was it loud? Good. It\'s meant to be loud.',
       look: { skin: 'honey', hair: 'long', hairColor: 'walnut', top: 'band-tee', topColor: 'bone', bottom: 'ripped-jeans', bottomColor: 'denim', shoes: 'sneakers', shoesColor: 'ink' }
     },
     guitarist: {
       name: 'Frankie', area: 'rock', x: 430, raise: 8, behind: true, plays: 'guitar',
-      idle: 'I broke a string in the first song and nobody noticed. Please don\'t tell the others.',
+      idle: 'I broke a string in the first song and played right through it. Nobody even noticed.',
       look: { skin: 'umber', hair: 'mohawk', hairColor: 'oxblood', top: 'flannel', topColor: 'olive', bottom: 'baggy-jeans', bottomColor: 'ink', shoes: 'high-tops', shoesColor: 'bone' }
     },
     drummer: {
       name: 'Pip', area: 'rock', x: 460, raise: 8, behind: true, plays: 'drums',
-      idle: 'Sorry, I can\'t really hear you! I think you said something nice, so thank you!',
+      idle: 'I can\'t hear you over the drums! It was something nice, I can tell, so thank you!',
       look: { skin: 'sand', hair: 'curls', hairColor: 'brass', top: 'big-tee', topColor: 'slate', bottom: 'baggy-shorts', bottomColor: 'ink', shoes: 'sneakers', shoesColor: 'bone' }
     },
     lounge: {
@@ -249,17 +249,17 @@
     },
     crooner: {
       name: 'Aaliyah', area: 'hiphop', x: 408, raise: 8, behind: true, plays: 'mic',
-      idle: 'Hi! Was that last one okay? I wrote it about someone and I\'m a little scared they\'re here tonight.',
+      idle: 'Hi! Did you like that last one? I wrote it about someone, and I\'d love for them to be here tonight.',
       look: { skin: 'umber', hair: 'curls', hairColor: 'walnut', top: 'slip-dress', topColor: 'plum', bottom: 'pencil-skirt', bottomColor: 'plum', shoes: 't-straps', shoesColor: 'bone' }
     },
     groove: {
       name: 'Marcus', area: 'hiphop', x: 432, raise: 8, behind: true, plays: 'bass',
-      idle: 'I just play the same four notes all night, honestly. They\'re really good notes, though.',
+      idle: 'I play the same four notes all night. They\'re really good notes, so why change them?',
       look: { skin: 'honey', hair: 'buzz', hairColor: 'ink', top: 'crewneck', topColor: 'bone', bottom: 'cargos', bottomColor: 'slate', shoes: 'high-tops', shoesColor: 'bone' }
     },
     selector: {
       name: 'Jay', area: 'hiphop', x: 464, raise: 8, behind: true, plays: 'decks',
-      idle: 'Every record I play tonight is from my auntie\'s collection. She said I can borrow them if I don\'t scratch them. So I\'m being very careful.',
+      idle: 'Every record I play tonight is from my auntie\'s collection. She lends them to me because I never scratch them. They\'re in good hands.',
       look: { skin: 'sand', hair: 'crop', hairColor: 'copper', top: 'hoodie', topColor: 'slate', bottom: 'joggers', bottomColor: 'ink', shoes: 'sneakers', shoesColor: 'ink' }
     },
     counter: {
@@ -280,17 +280,17 @@
     },
     regular: {
       name: 'Tariq', area: 'rap', x: 350,
-      idle: 'I\'m doing the open mic later and I\'m so nervous. Will you stick around and cheer for me?',
+      idle: 'I\'m doing the open mic later and I can\'t wait. Will you stick around and cheer for me?',
       look: { skin: 'umber', hair: 'crop', hairColor: 'ink', top: 'big-tee', topColor: 'mustard', bottom: 'baggy-jeans', bottomColor: 'denim', shoes: 'high-tops', shoesColor: 'bone' }
     },
     mc: {
       name: 'Nova', area: 'rap', x: 410, raise: 8, behind: true, plays: 'mic',
-      idle: 'Hey, you good? Shout out a word and I\'ll try to rhyme it. I might mess it up, though, so be nice.',
+      idle: 'Hey, you good? Shout out a word and I\'ll rhyme it on the spot. Any word you like, go on.',
       look: { skin: 'espresso', hair: 'coils', hairColor: 'copper', top: 'hoodie', topColor: 'olive', bottom: 'joggers', bottomColor: 'ink', shoes: 'high-tops', shoesColor: 'ink' }
     },
     deejay: {
       name: 'Dex', area: 'rap', x: 446, raise: 8, behind: true, plays: 'decks',
-      idle: 'Don\'t tell anyone, but one of these turntables is broken. I\'ve just been faking it all night.',
+      idle: 'One of these turntables is broken. I\'ve been mixing on one deck all night and nobody can tell.',
       look: { skin: 'bronze', hair: 'buzz', hairColor: 'ink', top: 'crewneck', topColor: 'slate', bottom: 'cargos', bottomColor: 'olive', shoes: 'sneakers', shoesColor: 'ink' }
     }
   };

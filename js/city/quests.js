@@ -16,7 +16,7 @@
   // x is the position along the street. Looks use the same options as the wardrobe.
   CC.city.npcs = {
     busker: {
-      name: 'Sal', x: 282, idle: 'I could play without a pick. You would not thank me.',
+      name: 'Sal', x: 282, idle: 'I could play without a pick. I\'d rather keep my fingernails.',
       look: { skin: 'sand', hair: 'curtains', hairColor: 'walnut', top: 'striped-knit', topColor: 'denim', bottom: 'high-waist-trousers', bottomColor: 'ink', shoes: 'oxfords', shoesColor: 'ink' }
     },
     vendor: {
