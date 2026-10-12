@@ -26,7 +26,7 @@
     {
       id: 'rock', number: 3, name: 'Indie', color: '#c8443f', open: true,
       playlist: 'https://open.spotify.com/playlist/37i9dQZF1EQqkOPvHGajmW',
-      goal: 'The amps are on. The band is loud.'
+      goal: 'The lamps are low. The band is playing.'
     },
     {
       id: 'hiphop', number: 2, name: 'R&B', color: '#9a6be0', open: true,
@@ -193,7 +193,7 @@
     merch: {
       name: 'Wren', area: 'rock', x: 238, behind: true, raise: 12,
       menu: {
-        prompt: 'Hey! Loud in here, right? I love it. What do you want to drink?',
+        prompt: 'Hey! Cosy in here, right? I love it. What do you want to drink?',
         options: [
           { text: 'A root beer', carry: 'Root beer', color: '#4a2a18', hot: false },
           { text: 'A black coffee', carry: 'Black coffee', color: '#2a1a12', hot: true },
@@ -202,7 +202,7 @@
         ],
         after: 'Cool, coming right up.',
         serve: true,
-        done: 'You finish your {drink}. Your ears are ringing a little.'
+        done: 'You finish your {drink}. The guitars are still humming in your head.'
       },
       look: { skin: 'porcelain', hair: 'curtains', hairColor: 'copper', top: 'flannel', topColor: 'oxblood', bottom: 'ripped-jeans', bottomColor: 'ink', shoes: 'combat-boots', shoesColor: 'ink' }
     },
@@ -213,7 +213,7 @@
     },
     frontman: {
       name: 'Rhett', area: 'rock', x: 408, raise: 8, behind: true, plays: 'mic',
-      idle: 'Hi! Thanks for coming. We wrote that last one in my mum\'s garage. Was it loud? Good. It\'s meant to be loud.',
+      idle: 'Hi! Thanks for coming. We wrote that last one in my mum\'s spare room. Was it soft enough? Good. It\'s meant to be soft.',
       look: { skin: 'honey', hair: 'long', hairColor: 'walnut', top: 'band-tee', topColor: 'bone', bottom: 'ripped-jeans', bottomColor: 'denim', shoes: 'sneakers', shoesColor: 'ink' }
     },
     guitarist: {
@@ -223,7 +223,7 @@
     },
     drummer: {
       name: 'Pip', area: 'rock', x: 460, raise: 8, behind: true, plays: 'drums',
-      idle: 'I can\'t hear you over the drums! It was something nice, I can tell, so thank you!',
+      idle: 'I can\'t hear you over the brushes! It was something nice, I can tell, so thank you!',
       look: { skin: 'sand', hair: 'curls', hairColor: 'brass', top: 'big-tee', topColor: 'slate', bottom: 'baggy-shorts', bottomColor: 'ink', shoes: 'sneakers', shoesColor: 'bone' }
     },
     lounge: {

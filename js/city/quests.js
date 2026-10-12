@@ -126,7 +126,7 @@
         options: [
           { text: 'Something slow and jazzy', genre: 'jazz' },
           { text: 'Something bouncy', genre: 'pop' },
-          { text: 'Something loud, with guitars', genre: 'rock' },
+          { text: 'Something mellow, with jangly guitars', genre: 'rock' },
           { text: 'Something smooth, with a groove', genre: 'hiphop' },
           { text: 'Something with fast rhymes', genre: 'rap' }
         ]
@@ -149,7 +149,7 @@
         options: [
           { text: 'A jazz band in dim blue light', genre: 'jazz' },
           { text: 'A pop star in glitter and pink', genre: 'pop' },
-          { text: 'An indie band in a messy garage', genre: 'rock' },
+          { text: 'An indie band in a cosy basement', genre: 'rock' },
           { text: 'A singer under purple neon', genre: 'hiphop' },
           { text: 'A rapper on a city rooftop', genre: 'rap' }
         ]
