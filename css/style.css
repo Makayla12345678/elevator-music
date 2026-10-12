@@ -993,9 +993,64 @@ button:focus-visible {
 .city__screen.is-full .fullscreen__grow { display: none; }
 .city__screen.is-full .fullscreen__shrink { display: inline; }
 
+/* A one-time callout under the button, with an arrow pointing up at it. */
+.fullscreen-tip {
+  position: absolute;
+  top: 52px;
+  right: 8px;
+  z-index: 5;
+  width: min(230px, calc(100% - 16px));
+  margin: 0;
+  padding: 9px 12px 8px;
+  background: var(--soot);
+  border: 1px solid var(--brass);
+  box-shadow: 3px 3px 0 #000;
+  pointer-events: none;
+  animation: tip-bob 1s steps(2, end) infinite;
+}
+
+.fullscreen-tip::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  right: 10px;
+  width: 9px;
+  height: 9px;
+  background: var(--soot);
+  border-top: 1px solid var(--brass);
+  border-left: 1px solid var(--brass);
+  transform: rotate(45deg);
+}
+
+.fullscreen-tip__title,
+.fullscreen-tip__text { display: block; }
+
+.fullscreen-tip__title {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--lamp);
+}
+
+.fullscreen-tip__text {
+  margin-top: 5px;
+  font-size: 10px;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  color: var(--bone);
+}
+
+@keyframes tip-bob {
+  50% { transform: translateY(3px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fullscreen-tip { animation: none; }
+}
+
 /* Touch screens need the walk buttons, which stay behind on the page. */
 @media (hover: none) and (pointer: coarse) {
-  .fullscreen { display: none; }
+  .fullscreen, .fullscreen-tip { display: none; }
   .hud { padding-right: 14px; }
 }
 

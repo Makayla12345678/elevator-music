@@ -10,6 +10,7 @@
   var rooms = cafe.rooms;
   var CAFE_DOOR = 2115;     // the cafe's front door, on the street
   var SAVE_KEY = 'cozycafe.guess';
+  var TIP_KEY = 'cozycafe.fullscreenTip';
   var WALK_SPEED = 70;      // pixels per second
   var TALK_RANGE = 30;
   var USE_RANGE = 18;       // stairs, coins, the ticket machine
@@ -129,6 +130,7 @@
 
   function stop() {
     running = false;
+    hideFullTip();
     CC.sound.music(false);
     clearTimeout(cardTimer);
     stopTyping();
@@ -378,6 +380,7 @@
     var floor = floorOf(to);
     setMusic(floor);
     if (floor) return showCard({ time: 'Floor ' + floor.number, place: floor.name });
+    if (to === 'lobby') showFullTip();
     if (to === 'lobby' || (to === 'street' && storyDone())) {
       $('hud-time').textContent = '2:00 AM';
       $('hud-place').textContent = to === 'lobby' ? cafe.text.lobbyName : cafe.text.streetName;
@@ -1026,6 +1029,29 @@
     });
     window.addEventListener('resize', fitScreen);
   }
+
+  // A one-time callout pointing at the full screen button, shown the first time
+  // the visitor gets into the cafe. It is marked as seen on showing, so a reload
+  // does not bring it back; without storage it shows on every visit.
+  var tipEl = $('fullscreen-tip');
+  var tipTimer = null;
+
+  function hideFullTip() {
+    clearTimeout(tipTimer);
+    tipEl.hidden = true;
+  }
+
+  function showFullTip() {
+    if (fullButton.hidden || !tipEl.hidden) return;
+    try {
+      if (localStorage.getItem(TIP_KEY)) return;
+      localStorage.setItem(TIP_KEY, '1');
+    } catch (error) { /* it will show again next time */ }
+    tipEl.hidden = false;
+    tipTimer = setTimeout(hideFullTip, 15000);
+  }
+
+  fullButton.addEventListener('click', hideFullTip);
 
   CC.city.start = start;
   CC.city.reachedCafe = function () { return !!savedGuess(); };
