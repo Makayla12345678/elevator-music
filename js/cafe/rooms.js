@@ -19,10 +19,11 @@
     black: '#0c0a10', brass: '#c9a45c', brassDim: '#7d6638', lit: '#f2c96b', bone: '#e8dfcc',
     wall: '#1d1626', wallEdge: '#2d2339', panel: '#17121d', wood: '#3b2a22', woodLight: '#6b4632',
     velvet: '#8a2433', velvetDark: '#5f1622',
-    neon: '#5fc48a', neonDim: '#2f6b4a', brick: '#3a2428', brickDark: '#2b1a1f', steel: '#5b6068', steelDark: '#33373d',
+    neon: '#5fc48a', neonDim: '#2f6b4a', steel: '#5b6068', steelDark: '#33373d',
     red: '#c8443f', redDim: '#7a2a2a', block: '#2a2a31', blockDark: '#202026',
     pink: '#e879b0', pinkDim: '#8f3f6a', lilac: '#b9a0e0', cyan: '#6fd6e0', plum: '#2a1430', plumDark: '#1f0f26',
-    violet: '#9a6be0', violetDim: '#4f3578', drape: '#241a3a', drapeDark: '#1a1230'
+    violet: '#9a6be0', violetDim: '#4f3578', drape: '#241a3a', drapeDark: '#1a1230',
+    acid: '#4df58f', acidDim: '#1f6b47', hot: '#ff4fa8', ultra: '#4d6bff', ultraDim: '#232f7a', club: '#0e1220', clubEdge: '#182036'
   };
 
   // `seat` is where you can sit and listen; `perch` lifts you onto a taller seat.
@@ -30,7 +31,7 @@
     lobby: { door: 40, lift: 270 },
     jazz: { lift: 40, stage: 398, seat: 346, perch: 4 },
     hiphop: { lift: 40, stage: 398, seat: 314, perch: 4 },
-    rap: { lift: 40, stage: 398, seat: 315, perch: 4 },
+    rap: { lift: 40, stage: 398, seat: 120, perch: 4 },
     pop: { lift: 40, stage: 398, seat: 128, perch: 8 },
     rock: { lift: 40, stage: 398, seat: 314, perch: 4 },
     yours: { lift: 40, decor: 98, seat: 222, perch: 4 }
@@ -239,99 +240,75 @@
   // One stack on the floor beside the stage and one up on it: [x, base].
   var RAP_SPEAKERS = [[places.rap.stage - 15, GROUND], [RAP_W - 14, GROUND - 8]];
 
-  // The stage truss lamps, the boombox by the mural and the sneakers slung over a pipe.
+  // The stage truss lamps, and the moving heads over the dance floor: [x, colour].
   var RAP_LAMPS = [places.rap.stage + 12, places.rap.stage + 34, places.rap.stage + 56, places.rap.stage + 78];
-  var RAP_BOOMBOX = 148;
-  var RAP_SNEAKERS = 302;
-  // The mural's letters, five cells across and seven down: [rows, how far it sits below the line].
-  var RAP_MURAL = [
-    [['11111', '10001', '10001', '11111', '10100', '10010', '10001'], 0],
-    [['11111', '10001', '10001', '11111', '10001', '10001', '10001'], 2],
-    [['11111', '10001', '10001', '11111', '10000', '10000', '10000'], 0]
-  ];
+  var RAP_HEADS = [[318, C.hot], [366, C.ultra]];
+  // The LED strips on the wall behind the dance floor: [first x, how many, gap].
+  var RAP_STRIPS = [300, 9, 10];
+  var RAP_LASER = [390, 30];
+  // The bottle-service table, and the top of the bottle where the sparkler burns.
+  var RAP_TABLE = 156;
+  var RAP_BOTTLE = [RAP_TABLE + 1, GROUND - 29];
 
-  // A throw-up piece in chunky letters: drop shadow, bone outline, two-tone fill, drips.
-  function mural(ctx, x, y) {
-    var cell = 4;
-    function pass(paint) {
-      RAP_MURAL.forEach(function (letter, n) {
-        letter[0].forEach(function (row, r) {
-          for (var c = 0; c < row.length; c++) {
-            if (row[c] === '1') paint(x + n * 24 + c * cell, y + letter[1] + r * cell, r);
-          }
-        });
-      });
+  // The VIP corner: a rope across the way in, a leather banquette and a bottle-service table.
+  function vipCorner(ctx) {
+    var seat = places.rap.seat;
+    var table = RAP_TABLE;
+
+    // Quilted wall panel under a pin spot.
+    rect(ctx, seat - 18, 70, 84, GROUND - 70, C.clubEdge);
+    rect(ctx, seat - 18, 69, 84, 1, C.hot);
+    for (var qy = 76; qy < GROUND - 26; qy += 6) {
+      for (var qx = seat - 14 + (qy % 12 ? 0 : 4); qx < seat + 64; qx += 8) rect(ctx, qx, qy, 1, 1, C.club);
     }
-    pass(function (px, py) { rect(ctx, px + 3, py + 3, cell, cell, C.black); });
-    pass(function (px, py) { rect(ctx, px - 1, py - 1, cell + 2, cell + 2, C.bone); });
-    pass(function (px, py, r) { rect(ctx, px, py, cell, cell, r < 4 ? C.violet : C.neon); });
-    pass(function (px, py, r) { if (r === 0) rect(ctx, px, py, cell, 1, C.lilac); });
-    [[2, 7, C.neon], [17, 4, C.neon], [25, 10, C.neon], [42, 6, C.neon], [50, 8, C.neon]].forEach(function (drip) {
-      rect(ctx, x + drip[0], y + 29, 1, drip[1], drip[2]);
-      rect(ctx, x + drip[0], y + 29 + drip[1], 1, 1, C.bone);
-    });
-    rect(ctx, x + 29, y - 6, 11, 3, C.lit);                          // a crown over the A
-    [0, 5, 10].forEach(function (spike) { rect(ctx, x + 29 + spike, y - 9, 1, 3, C.lit); });
-    rect(ctx, x + 34, y - 5, 1, 1, C.red);
-  }
+    ctx.fillStyle = 'rgba(255, 79, 168, 0.08)';
+    ctx.beginPath();
+    ctx.moveTo(table, 27);
+    ctx.lineTo(table - 44, GROUND);
+    ctx.lineTo(table + 30, GROUND);
+    ctx.fill();
+    label(ctx, 'VIP', seat + 24, 62, C.hot);
 
-  // Gig flyers pasted over one another on the brick.
-  function flyers(ctx, x, y) {
-    rect(ctx, x, y + 2, 13, 17, C.bone);
-    rect(ctx, x + 1, y + 3, 11, 3, C.black);
-    rect(ctx, x + 2, y + 8, 9, 1, C.red);
-    rect(ctx, x + 2, y + 10, 6, 1, C.black);
-    rect(ctx, x + 2, y + 13, 9, 4, C.red);
-    rect(ctx, x + 10, y + 10, 13, 16, '#e8a23c');
-    rect(ctx, x + 13, y + 13, 7, 7, C.black);
-    rect(ctx, x + 16, y + 16, 1, 1, '#e8a23c');
-    rect(ctx, x + 12, y + 22, 9, 1, C.black);
-    rect(ctx, x + 25, y, 12, 16, C.pink);
-    rect(ctx, x + 26, y + 2, 10, 2, C.black);
-    rect(ctx, x + 26, y + 6, 10, 1, C.plum);
-    rect(ctx, x + 26, y + 8, 7, 1, C.plum);
-    rect(ctx, x + 28, y + 11, 6, 3, C.plum);
-    rect(ctx, x + 35, y + 12, 12, 15, '#3f5f8a');
-    rect(ctx, x + 37, y + 14, 8, 1, C.bone);
-    rect(ctx, x + 37, y + 17, 8, 6, C.bone);
-    rect(ctx, x + 39, y + 19, 4, 2, '#3f5f8a');
-    rect(ctx, x + 44, y + 12, 3, 2, C.brick);                        // a torn corner
-    rect(ctx, x + 46, y + 14, 1, 1, C.brick);
-    [[5, 1], [15, 9], [30, -1]].forEach(function (tape) { rect(ctx, x + tape[0], y + tape[1], 4, 2, '#b9b3ad'); });
-  }
-
-  // A crate of records, a few spray cans and a boombox on a milk crate.
-  function streetCorner(ctx) {
-    var sleeves = [C.bone, C.red, '#e8a23c', C.violet, C.cyan, C.bone, C.pink];
-    sleeves.forEach(function (color, i) { rect(ctx, 93 + i * 2, GROUND - 14 + (i % 2), 2, 5, color); });
-    rect(ctx, 92, GROUND - 10, 16, 10, C.neonDim);
-    rect(ctx, 93, GROUND - 8, 14, 1, C.black);
-    rect(ctx, 93, GROUND - 4, 14, 1, C.black);
-    [[114, C.violet], [120, C.neon]].forEach(function (can) {
-      rect(ctx, can[0], GROUND - 8, 3, 8, can[1]);
-      rect(ctx, can[0], GROUND - 5, 3, 1, C.black);
-      rect(ctx, can[0] + 1, GROUND - 10, 1, 2, C.bone);
+    // Velvet rope between two chrome posts.
+    [seat - 42, seat - 22].forEach(function (x) {
+      rect(ctx, x, GROUND - 18, 2, 18, '#b9b3ad');
+      rect(ctx, x - 1, GROUND - 20, 4, 2, C.bone);
+      rect(ctx, x - 2, GROUND - 1, 6, 1, C.steel);
     });
-    rect(ctx, 127, GROUND - 3, 8, 3, C.pink);                        // one rolled away
-    rect(ctx, 135, GROUND - 2, 2, 1, C.bone);
+    for (var link = 0; link < 18; link++) {
+      var sag = Math.round(Math.sin((link + 0.5) / 18 * Math.PI) * 4);
+      rect(ctx, seat - 40 + link, GROUND - 16 + sag, 1, 2, C.velvet);
+      rect(ctx, seat - 40 + link, GROUND - 14 + sag, 1, 1, C.velvetDark);
+    }
 
-    var x = RAP_BOOMBOX;
-    rect(ctx, x + 2, GROUND - 11, 18, 11, '#e8a23c');
-    rect(ctx, x + 3, GROUND - 9, 16, 2, C.black);
-    rect(ctx, x + 3, GROUND - 5, 16, 2, C.black);
-    rect(ctx, x + 10, GROUND - 11, 2, 11, '#e8a23c');
-    rect(ctx, x + 21, GROUND - 31, 1, 9, C.steel);                   // aerial
-    rect(ctx, x + 4, GROUND - 26, 14, 1, C.steel);                   // handle
-    rect(ctx, x + 4, GROUND - 26, 1, 3, C.steel);
-    rect(ctx, x + 17, GROUND - 26, 1, 3, C.steel);
-    rect(ctx, x, GROUND - 23, 22, 12, C.steelDark);
-    rect(ctx, x + 1, GROUND - 22, 20, 10, '#1c1a22');
-    rect(ctx, x + 1, GROUND - 22, 20, 1, C.steel);
-    [x + 2, x + 14].forEach(function (cone) {
-      rect(ctx, cone, GROUND - 20, 6, 6, C.steel);
-      rect(ctx, cone + 2, GROUND - 18, 2, 2, C.black);
+    // Black leather banquette, lit along the top and underneath.
+    rect(ctx, seat - 14, GROUND - 26, 74, 26, '#1d1b27');
+    rect(ctx, seat - 14, GROUND - 26, 74, 1, C.hot);
+    for (var seam = seat - 6; seam < seat + 60; seam += 9) rect(ctx, seam, GROUND - 24, 1, 13, C.black);
+    rect(ctx, seat - 14, GROUND - 10, 74, 6, '#2a2736');
+    rect(ctx, seat - 14, GROUND - 10, 74, 1, '#3a3648');
+    rect(ctx, seat - 14, GROUND - 4, 74, 4, C.black);
+    rect(ctx, seat - 14, GROUND - 1, 74, 1, C.hot);
+    rect(ctx, seat - 17, GROUND - 18, 4, 18, '#1d1b27');
+    rect(ctx, seat + 59, GROUND - 18, 4, 18, '#1d1b27');
+
+    // Low table: a bottle on ice and two flutes.
+    rect(ctx, table - 12, GROUND - 12, 24, 2, C.steelDark);
+    rect(ctx, table - 12, GROUND - 10, 24, 1, C.ultra);
+    rect(ctx, table - 2, GROUND - 9, 4, 9, C.black);
+    rect(ctx, table - 6, GROUND - 1, 12, 1, C.steelDark);
+    rect(ctx, table + 1, GROUND - 27, 2, 8, C.acidDim);              // bottle
+    rect(ctx, table + 1, GROUND - 28, 2, 3, C.lit);
+    rect(ctx, table - 4, GROUND - 19, 8, 7, C.steel);                // ice bucket
+    rect(ctx, table - 5, GROUND - 20, 10, 1, '#b9b3ad');
+    rect(ctx, table - 3, GROUND - 18, 1, 5, '#b9b3ad');
+    rect(ctx, table - 3, GROUND - 21, 2, 1, C.bone);
+    rect(ctx, table + 3, GROUND - 21, 1, 1, C.bone);
+    [table - 10, table + 7].forEach(function (x) {
+      rect(ctx, x, GROUND - 18, 3, 3, 'rgba(232, 223, 204, 0.55)');
+      rect(ctx, x, GROUND - 17, 3, 2, C.lit);
+      rect(ctx, x + 1, GROUND - 15, 1, 3, C.bone);
     });
-    rect(ctx, x + 9, GROUND - 17, 4, 3, '#12202a');                  // tape deck
   }
 
   function buildRap() {
@@ -339,115 +316,87 @@
     var ctx = canvas.getContext('2d');
     var st = places.rap.stage;
 
-    // Bare brick, darker towards the floor.
-    rect(ctx, 0, 0, RAP_W, GROUND, C.brick);
-    for (var by = 22; by < GROUND; by += 6) {
-      rect(ctx, 0, by, RAP_W, 1, C.brickDark);
-      for (var bx = (by / 6) % 2 ? 0 : 7; bx < RAP_W; bx += 14) rect(ctx, bx, by - 5, 1, 5, C.brickDark);
-    }
+    // Matte black panels, darker towards the floor.
+    rect(ctx, 0, 0, RAP_W, GROUND, C.club);
+    for (var seam = 22; seam < RAP_W; seam += 24) rect(ctx, seam, 28, 1, GROUND - 28, C.clubEdge);
     ctx.fillStyle = 'rgba(12, 10, 16, 0.35)';
     ctx.fillRect(0, 104, RAP_W, GROUND - 104);
 
-    // Low ceiling with pipes running the length of the room.
+    // Black ceiling, a cove of blue light and a lighting truss the length of the room.
     rect(ctx, 0, 0, RAP_W, 19, C.black);
-    rect(ctx, 0, 20, RAP_W, 3, C.steel);
-    rect(ctx, 0, 23, RAP_W, 1, C.steelDark);
-    rect(ctx, 0, 26, RAP_W, 2, C.steelDark);
-    for (var joint = 30; joint < RAP_W; joint += 88) rect(ctx, joint, 19, 4, 5, C.steelDark);
-
-    // Caged work lights.
-    [84, 330].forEach(function (x) {
-      glow(ctx, x + 2, 34, 116, 40);
-      rect(ctx, x + 2, 28, 1, 4, C.steelDark);
-      rect(ctx, x, 32, 5, 4, C.lit);
-      rect(ctx, x - 1, 36, 7, 1, C.steelDark);
+    ctx.fillStyle = 'rgba(77, 107, 255, 0.10)';
+    ctx.fillRect(0, 19, RAP_W, 14);
+    rect(ctx, 0, 19, RAP_W, 1, C.ultra);
+    rect(ctx, 0, 21, RAP_W, 1, C.steel);
+    rect(ctx, 0, 26, RAP_W, 1, C.steelDark);
+    for (var brace = 2; brace < RAP_W; brace += 6) rect(ctx, brace, 22, 1, 4, C.steelDark);
+    RAP_HEADS.forEach(function (head) {
+      rect(ctx, head[0] - 1, 27, 7, 2, C.steelDark);
+      rect(ctx, head[0], 29, 5, 4, C.steel);
     });
+    rect(ctx, RAP_LASER[0] - 2, 27, 5, 3, C.steel);
 
-    // A tag on the brick.
-    label(ctx, 'FLOOR 1', 346, 66, '#9a6be0');
-    rect(ctx, 330, 69, 34, 1, '#9a6be0');
-    [[376, 96], [372, 50], [72, 66]].forEach(function (star) {
-      rect(ctx, star[0], star[1] - 2, 1, 5, C.bone);
-      rect(ctx, star[0] - 2, star[1], 5, 1, C.bone);
+    // LED strips up the wall behind the dance floor, unlit.
+    for (var strip = 0; strip < RAP_STRIPS[1]; strip++) {
+      rect(ctx, RAP_STRIPS[0] + strip * RAP_STRIPS[2], 36, 2, 72, C.ultraDim);
+    }
+    vipCorner(ctx);
+
+    // Neon sign over the bar: the name inside a tube bent into a lozenge.
+    rect(ctx, 214, 32, 52, 1, C.hot);
+    rect(ctx, 214, 48, 52, 1, C.hot);
+    rect(ctx, 211, 35, 1, 11, C.hot);
+    rect(ctx, 268, 35, 1, 11, C.hot);
+    [[213, 33], [212, 34], [266, 33], [267, 34], [212, 46], [213, 47], [267, 46], [266, 47]].forEach(function (bend) {
+      rect(ctx, bend[0], bend[1], 1, 1, C.hot);
     });
-    mural(ctx, 96, 60);
-    flyers(ctx, 298, 76);
-    streetCorner(ctx);
+    label(ctx, 'RAP', 240, 44, C.acid);
 
-    // Neon sign over the counter.
-    ctx.fillStyle = 'rgba(95, 196, 138, 0.10)';
-    ctx.fillRect(196, 28, 88, 24);
-    rect(ctx, 212, 33, 56, 14, C.black);
-    rect(ctx, 212, 33, 56, 1, C.neon);
-    rect(ctx, 212, 46, 56, 1, C.neon);
-    rect(ctx, 212, 33, 1, 14, C.neon);
-    rect(ctx, 267, 33, 1, 14, C.neon);
-    label(ctx, 'RAP', 240, 44, C.neon);
-
-    // Drinks fridge behind the counter.
-    rect(ctx, 196, 54, 88, 50, C.steelDark);
-    rect(ctx, 198, 56, 84, 46, '#12202a');
-    rect(ctx, 239, 56, 2, 46, C.steelDark);
-    var cans = ['#5fc48a', '#e8dfcc', '#e8a23c', '#9a6be0', '#c8443f', '#3f5f8a'];
+    // Back bar: bottles on glass shelves, each lit along its edge.
+    rect(ctx, 190, 54, 100, 50, C.black);
+    rect(ctx, 192, 56, 96, 46, '#0a0e1a');
+    var bottles = ['#e8dfcc', '#c9a45c', '#6fd6e0', '#e879b0', '#e8a23c', '#b9a0e0'];
     [68, 81, 94].forEach(function (shelf, row) {
-      rect(ctx, 198, shelf, 84, 1, C.steel);
-      for (var c = 0; c < 13; c++) {
-        if (c === 6) continue; // the door frame
-        rect(ctx, 200 + c * 6 + (c > 6 ? 1 : 0), shelf - 7, 4, 7, cans[(c + row * 2) % cans.length]);
+      ctx.fillStyle = 'rgba(77, 107, 255, 0.16)';
+      ctx.fillRect(192, shelf - 10, 96, 10);
+      for (var b = 0; b < 11; b++) {
+        var bx = 196 + b * 8 + (b > 5 ? 4 : 0);
+        rect(ctx, bx, shelf - 7, 4, 7, bottles[(b + row * 2) % bottles.length]);
+        rect(ctx, bx + 1, shelf - 10, 2, 3, bottles[(b + row * 2) % bottles.length]);
       }
-    });
-    rect(ctx, 198, 56, 84, 2, 'rgba(95, 196, 138, 0.35)'); // strip light
-
-    // Milk crates to sit on.
-    [300, 316].forEach(function (x, i) {
-      var color = i ? '#3f5f8a' : '#c8443f';
-      rect(ctx, x, GROUND - 11, 14, 11, color);
-      rect(ctx, x + 1, GROUND - 9, 12, 2, C.black);
-      rect(ctx, x + 1, GROUND - 5, 12, 2, C.black);
-      rect(ctx, x + 6, GROUND - 11, 2, 11, color);
+      rect(ctx, 192, shelf, 96, 1, C.ultra);
     });
 
-    // Stage: black backdrop, a green wash and a speaker stack each side.
+    // Stage: black backdrop, an LED screen, a blue wash and a speaker stack each side.
     rect(ctx, st, 19, RAP_W - st, GROUND - 19, C.black);
     rect(ctx, st, 19, 2, GROUND - 19, C.steelDark);
     rect(ctx, st + 2, 24, RAP_W - st - 2, 2, C.steel); // lighting truss
-    RAP_LAMPS.forEach(function (lamp) { rect(ctx, lamp, 26, 5, 4, C.neon); });
-    ctx.fillStyle = 'rgba(95, 196, 138, 0.10)';
+    RAP_LAMPS.forEach(function (lamp) { rect(ctx, lamp, 26, 5, 4, C.ultra); });
+    ctx.fillStyle = 'rgba(77, 107, 255, 0.12)';
     ctx.beginPath();
     ctx.moveTo(438, 28);
     ctx.lineTo(st, GROUND - 8);
     ctx.lineTo(RAP_W, GROUND - 8);
     ctx.fill();
-    rect(ctx, st + 26, 38, 50, 28, '#12202a'); // level meter panel
-    rect(ctx, st + 26, 66, 50, 1, C.neonDim);
+    rect(ctx, st + 24, 32, 54, 42, C.steelDark); // LED screen
+    rect(ctx, st + 25, 33, 52, 40, '#080b14');
 
     lift(ctx, places.rap.lift);
 
-    // Concrete floor.
-    rect(ctx, 0, GROUND, RAP_W, VIEW_H - GROUND, '#2b2a30');
-    rect(ctx, 0, GROUND, RAP_W, 1, C.steel);
-    for (var crack = 22; crack < RAP_W; crack += 58) {
-      rect(ctx, crack, GROUND + 7 + (crack % 3) * 5, 9, 1, '#222127');
-      rect(ctx, crack + 30, GROUND + 18 - (crack % 4) * 2, 5, 1, '#36353c');
-    }
+    // Polished black floor, catching the lights: [x, y, width, colour].
+    rect(ctx, 0, GROUND, RAP_W, VIEW_H - GROUND, '#0a0b12');
+    rect(ctx, 0, GROUND, RAP_W, 1, C.ultraDim);
+    [
+      [108, 4, 70, C.hot], [124, 13, 38, C.hot], [204, 6, 72, C.hot], [222, 15, 36, C.acid],
+      [302, 5, 78, C.ultra], [318, 12, 46, C.ultra], [334, 20, 22, C.acid], [st + 14, 5, 52, C.acid], [st + 26, 16, 28, C.ultra]
+    ].forEach(function (shine) {
+      ctx.globalAlpha = 0.14;
+      rect(ctx, shine[0], GROUND + shine[1], shine[2], 1, shine[3]);
+    });
+    ctx.globalAlpha = 1;
 
-    // A cypher circle chalked in front of the stage, a tape mark in the middle.
-    for (var dash = 0; dash < 72; dash++) {
-      if (dash % 3 === 2) continue;
-      var turn = (dash / 72) * Math.PI * 2;
-      rect(ctx, 352 + Math.cos(turn) * 30, 166 + Math.sin(turn) * 9, 1, 1, '#5d5b66');
-    }
-    for (var arm = -3; arm <= 3; arm++) {
-      rect(ctx, 352 + arm, 166 + Math.round(arm / 3), 1, 1, '#b9b3ad');
-      rect(ctx, 352 + arm, 166 - Math.round(arm / 3), 1, 1, '#b9b3ad');
-    }
-    rect(ctx, 384, GROUND + 3, 14, 1, C.black);            // a cable trailing off the stage
-    rect(ctx, 378, GROUND + 4, 6, 1, C.black);
-    rect(ctx, 370, GROUND + 5, 8, 1, C.black);
-    rect(ctx, 367, GROUND + 4, 3, 1, C.black);
-
-    rect(ctx, st, GROUND - 8, RAP_W - st, 8, C.steelDark); // stage riser
-    rect(ctx, st, GROUND - 8, RAP_W - st, 1, C.neon);
+    rect(ctx, st, GROUND - 8, RAP_W - st, 8, C.clubEdge); // stage riser
+    rect(ctx, st, GROUND - 8, RAP_W - st, 1, C.acid);
     RAP_SPEAKERS.forEach(function (at) { speaker(ctx, at[0], at[1]); });
     return canvas;
   }
@@ -1006,68 +955,103 @@
     notes(ctx, places.jazz.stage + 8 - camX, time);
   }
 
-  // Level bars on the stage wall, bouncing with the beat.
+  // The LED screen on the stage wall: columns of cells bouncing with the beat.
   function levels(ctx, x, time) {
     var step = Math.floor(time / 140);
-    for (var b = 0; b < 11; b++) {
-      var height = 4 + Math.abs(Math.round(Math.sin(step * 0.9 + b * 1.7) * 9 + Math.sin(step * 0.37 + b) * 6));
-      rect(ctx, x + b * 4, 65 - height, 3, height, C.neon);
-      rect(ctx, x + b * 4, 65 - height, 3, 1, C.bone);
+    for (var b = 0; b < 13; b++) {
+      var cells = 2 + Math.abs(Math.round(Math.sin(step * 0.9 + b * 1.7) * 6 + Math.sin(step * 0.37 + b) * 4));
+      for (var c = 0; c < cells; c++) {
+        rect(ctx, x + b * 4, 70 - c * 3, 3, 2, c === cells - 1 ? C.bone : c > 7 ? C.hot : C.acid);
+      }
     }
   }
 
-  // The counter, the pulsing speakers and the decks, drawn over the people behind them.
+  // The light show, the bar, the pulsing speakers and the DJ booth, drawn over the people behind them.
   function rapFront(ctx, camX, time) {
-    var flicker = time % 6400;                                       // the neon tube stutters now and then
-    if ((flicker > 5600 && flicker < 5680) || (flicker > 5760 && flicker < 5800) || (flicker > 5900 && flicker < 6060)) {
-      rect(ctx, 212 - camX, 33, 56, 14, C.black);
-      rect(ctx, 212 - camX, 33, 56, 1, C.neonDim);
-      rect(ctx, 212 - camX, 46, 56, 1, C.neonDim);
-      rect(ctx, 212 - camX, 33, 1, 14, C.neonDim);
-      rect(ctx, 267 - camX, 33, 1, 14, C.neonDim);
-      label(ctx, 'RAP', 240 - camX, 44, C.neonDim);
+    var beat = Math.floor(time / 240);
+    var thump = beat % 2;
+
+    ctx.globalAlpha = thump ? 0.16 : 0.09;                           // the sign glowing on the beat
+    rect(ctx, 200 - camX, 27, 80, 27, C.hot);
+    ctx.globalAlpha = 1;
+
+    for (var strip = 0; strip < RAP_STRIPS[1]; strip++) {            // a wave rolling along the LED strips
+      var sx = RAP_STRIPS[0] + strip * RAP_STRIPS[2] - camX;
+      var crest = 66 + Math.round(Math.sin(time / 420 + strip * 0.8) * 24);
+      rect(ctx, sx, crest - 6, 2, 18, strip % 3 ? C.ultra : C.hot);
+      rect(ctx, sx, crest, 2, 6, C.bone);
     }
 
-    var sway = Math.round(Math.sin(time / 800));                     // sneakers slung over the pipe
-    [[0, 8, C.red], [3, 12, C.bone]].forEach(function (shoe) {
-      var top = 28 + shoe[1];
-      var sx = RAP_SNEAKERS + shoe[0] - camX;
-      rect(ctx, sx, 28, 1, shoe[1], '#b9b3ad');
-      rect(ctx, sx + sway, top, 1, 7, '#b9b3ad');
-      rect(ctx, sx + sway - 3, top + 7, 4, 5, shoe[2]);
-      rect(ctx, sx + sway - 3, top + 10, 7, 2, shoe[2]);
-      rect(ctx, sx + sway - 3, top + 12, 7, 1, shoe[2] === C.bone ? C.steel : C.bone);
+    RAP_HEADS.forEach(function (head, i) {                           // moving heads sweeping the dance floor
+      var aim = head[0] + Math.sin(time / 1100 + i * 2.4) * 44;
+      ctx.globalAlpha = 0.16;
+      ctx.fillStyle = head[1];
+      ctx.beginPath();
+      ctx.moveTo(head[0] + 2 - camX, 32);
+      ctx.lineTo(aim - 13 - camX, GROUND + 12);
+      ctx.lineTo(aim + 13 - camX, GROUND + 12);
+      ctx.fill();
+      ctx.globalAlpha = 1;
+      rect(ctx, head[0] + 1 - camX, 32, 3, 1, head[1]);
     });
 
-    var beat = Math.floor(time / 240);
+    ctx.globalAlpha = 0.55;                                          // a laser fan opening and closing
+    for (var ray = 0; ray < 4; ray++) {
+      var lean = (ray - 1.5) * (10 + Math.sin(time / 700) * 8) - 46;
+      for (var ly = RAP_LASER[1]; ly < GROUND + 10; ly += 2) {
+        rect(ctx, Math.round(RAP_LASER[0] + lean * (ly - RAP_LASER[1]) / 130) - camX, ly, 1, 2, C.acid);
+      }
+    }
+    ctx.globalAlpha = 0.035;                                         // haze drifting across the floor
+    for (var puff = 0; puff < 5; puff++) {
+      var drift = Math.round((time / (50 + puff * 14) + puff * 140) % (RAP_W + 90) - 90) - camX;
+      rect(ctx, drift + 16, 118 + puff * 6, 52, 2, C.bone);
+      rect(ctx, drift, 120 + puff * 6, 90, 2, C.bone);
+      rect(ctx, drift + 22, 122 + puff * 6, 58, 2, C.bone);
+    }
+    ctx.globalAlpha = 1;
+
     RAP_LAMPS.forEach(function (lamp, i) {                           // truss lamps chasing with the thump
-      if ((i + beat) % 2) rect(ctx, lamp - camX, 26, 5, 4, C.neonDim);
+      if ((i + beat) % 2) rect(ctx, lamp - camX, 26, 5, 4, C.ultraDim);
       else rect(ctx, lamp + 1 - camX, 27, 3, 1, C.bone);
     });
-    [0, 1, 2].forEach(function (led) {                               // boombox lights
-      rect(ctx, RAP_BOOMBOX + 9 + led * 2 - camX, GROUND - 20, 1, 1, (led + beat) % 3 ? C.neonDim : C.neon);
-    });
 
-    rect(ctx, 188 - camX, GROUND - 26, 104, 31, '#8a6a45');          // plywood
-    for (var seam = 214; seam < 292; seam += 26) rect(ctx, seam - camX, GROUND - 26, 1, 31, '#6f5334');
+    var fizz = Math.floor(time / 90);                                // the sparkler in the bottle
+    for (var spark = 0; spark < 5; spark++) {
+      var reach = 1 + (fizz + spark * 2) % 4;
+      var px = RAP_BOTTLE[0] + Math.round(Math.cos(fizz * 2.4 + spark * 1.3) * reach);
+      var py = RAP_BOTTLE[1] - 2 + Math.round(Math.sin(fizz * 2.4 + spark * 1.3) * reach);
+      rect(ctx, px - camX, py, 1, 1, spark % 2 ? C.lit : '#ffffff');
+    }
+    rect(ctx, RAP_BOTTLE[0] - camX, RAP_BOTTLE[1] - 1, 1, 1, '#ffffff');
+
+    rect(ctx, 188 - camX, GROUND - 26, 104, 31, '#0c0e16');          // gloss black bar, lit from below
+    for (var fin = 200; fin < 292; fin += 12) rect(ctx, fin - camX, GROUND - 23, 1, 25, C.clubEdge);
     rect(ctx, 186 - camX, GROUND - 28, 108, 3, C.steel);
-    rect(ctx, 186 - camX, GROUND - 25, 108, 1, C.steelDark);
-    rect(ctx, 188 - camX, GROUND + 1, 104, 1, C.steelDark);
-    label(ctx, 'COLD DRINKS', 240 - camX, GROUND - 10, C.black);
+    rect(ctx, 186 - camX, GROUND - 25, 108, 1, thump ? C.acid : C.acidDim);
+    rect(ctx, 188 - camX, GROUND + 4, 104, 1, C.hot);
+    ctx.globalAlpha = 0.25;
+    rect(ctx, 184 - camX, GROUND + 5, 112, 2, C.hot);
+    ctx.globalAlpha = 1;
     [204, 276].forEach(function (x) { // stools
-      rect(ctx, x - 5 - camX, GROUND - 10, 10, 3, C.steel);
-      rect(ctx, x - 1 - camX, GROUND - 7, 2, 12, C.steelDark);
+      rect(ctx, x - 5 - camX, GROUND - 10, 10, 3, '#3a3648');
+      rect(ctx, x - 1 - camX, GROUND - 7, 2, 12, '#b9b3ad');
     });
 
-    var thump = Math.floor(time / 240) % 2;
     RAP_SPEAKERS.forEach(function (at) { // cones thumping
       [at[1] - 28, at[1] - 15].forEach(function (y) {
         rect(ctx, at[0] + 3 - thump - camX, y + 1 - thump, 7 + thump * 2, 7 + thump * 2, C.steel);
         rect(ctx, at[0] + 5 - camX, y + 3, 3, 3, C.black);
       });
     });
-    levels(ctx, places.rap.stage + 29 - camX, time);
+    levels(ctx, places.rap.stage + 26 - camX, time);
     instruments(ctx, 'rap', camX, time);
+
+    var booth = CC.cafe.npcs.deejay.x - camX;                        // LED slats across the front of the DJ booth
+    rect(ctx, booth - 17, STAGE_FLOOR - 15, 34, 15, C.black);
+    for (var slat = 0; slat < 8; slat++) {
+      rect(ctx, booth - 15 + slat * 4, STAGE_FLOOR - 12, 2, 10, (slat + beat) % 4 ? C.ultraDim : C.acid);
+    }
   }
 
   // The breathing neon, the turning record, the bar and the band.
