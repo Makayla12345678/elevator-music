@@ -6,6 +6,7 @@
   var audio = null;
   var STEP_VOLUME = 0.5;    // footsteps; turn these two up or down to taste
   var POUR_VOLUME = 0.6;    // a drink being poured
+  var CLICK_VOLUME = 0.25;  // picking something in the wardrobe
 
   // ---------- Street lofi ----------
 
@@ -191,6 +192,25 @@
       gain.connect(audio.destination);
       osc.start(now);
       osc.stop(now + 0.07);
+    },
+
+    // A small, soft tick for picking something in the wardrobe. The pitch
+    // wobbles a little each time so a run of clicks doesn't sound mechanical.
+    click: function () {
+      if (!audio) return;
+      var now = audio.currentTime;
+      var osc = audio.createOscillator();
+      var gain = audio.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(900 + Math.random() * 120, now);
+      osc.frequency.exponentialRampToValueAtTime(420, now + 0.05);
+      gain.gain.setValueAtTime(CLICK_VOLUME, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.07);
+      osc.connect(gain);
+      gain.connect(audio.destination);
+      osc.start(now);
+      osc.stop(now + 0.08);
+      hiss(now, 'highpass', 3000, CLICK_VOLUME * 0.4, 0.02, audio.destination);
     },
 
     // One soft footfall. The left foot lands a little lower than the right.

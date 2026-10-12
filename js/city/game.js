@@ -140,6 +140,7 @@
     cityEl.hidden = true;
     creatorEl.hidden = false;
     CC.showSkip();
+    CC.creatorShown();
   }
 
   // ---------- Story ----------

@@ -71,7 +71,7 @@
 
     button.appendChild(thumb);
     button.appendChild(el('span', 'item__name', item.name));
-    button.addEventListener('click', function () { CC.state.set(spec.key, item.id); });
+    button.addEventListener('click', function () { CC.sound.click(); CC.state.set(spec.key, item.id); });
     return button;
   }
 
@@ -109,7 +109,7 @@
       button.title = color.name;
       button.setAttribute('aria-label', color.name);
       button.setAttribute('aria-pressed', String(CC.state.look[spec.key] === color.id));
-      button.addEventListener('click', function () { CC.state.set(spec.key, color.id); });
+      button.addEventListener('click', function () { CC.sound.click(); CC.state.set(spec.key, color.id); });
       row.appendChild(button);
     });
     wrap.appendChild(row);
@@ -133,6 +133,7 @@
       button.setAttribute('role', 'tab');
       button.setAttribute('aria-selected', String(tab === activeTab));
       button.addEventListener('click', function () {
+        CC.sound.click();
         activeTab = tab;
         renderTabs();
         renderPanel();
@@ -160,6 +161,14 @@
   var skip = document.getElementById('skip');
   skip.addEventListener('click', function () { CC.city.start({ cafe: true }); });
   CC.showSkip = function () { skip.hidden = !CC.city.reachedCafe(); };
+
+  // Lofi plays while you dress up. Browsers only allow sound after a click or
+  // key press, so it starts on your first one, and comes back when you return here.
+  var creatorEl = document.querySelector('.creator');
+  function startMusic() { CC.sound.unlock(); CC.sound.music(true); }
+  creatorEl.addEventListener('pointerdown', startMusic, { once: true });
+  creatorEl.addEventListener('keydown', startMusic, { once: true });
+  CC.creatorShown = function () { CC.sound.music(true); };
 
   renderTabs();
   renderPanel();
