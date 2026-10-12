@@ -1,11 +1,12 @@
 // All the game's own sound, made on the spot with Web Audio (no audio files):
 // plucked notes for the melody challenge, the babble people make while they
-// talk, your footsteps, a drink being poured, and the lofi loop that plays out
+// talk, your footsteps, a drink being poured and sipped, and the lofi loop that plays out
 // on the street. Silent if the browser has no Web Audio.
 (function (CC) {
   var audio = null;
   var STEP_VOLUME = 0.5;    // footsteps; turn these two up or down to taste
   var POUR_VOLUME = 0.6;    // a drink being poured
+  var SIP_VOLUME = 0.5;     // a sip of that drink
   var CLICK_VOLUME = 0.25;  // picking something in the wardrobe
 
   // ---------- Street lofi ----------
@@ -249,6 +250,41 @@
       gurgle.start(now);
       source.stop(now + seconds + 0.02);
       gurgle.stop(now + seconds + 0.02);
+    },
+
+    // One sip: a slurp of air and liquid rising in pitch, then a soft swallow.
+    sip: function () {
+      if (!audio) return;
+      var now = audio.currentTime;
+      var source = audio.createBufferSource();
+      var filter = audio.createBiquadFilter();
+      var gain = audio.createGain();
+      source.buffer = whiteNoise();
+      filter.type = 'bandpass';
+      filter.Q.value = 4;
+      filter.frequency.setValueAtTime(900, now);
+      filter.frequency.exponentialRampToValueAtTime(2600, now + 0.3);
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.linearRampToValueAtTime(SIP_VOLUME, now + 0.06);
+      gain.gain.linearRampToValueAtTime(SIP_VOLUME * 0.6, now + 0.25);
+      gain.gain.linearRampToValueAtTime(0.0001, now + 0.34);
+      source.connect(filter);
+      filter.connect(gain);
+      gain.connect(audio.destination);
+      source.start(now, Math.random() * 0.5);
+      source.stop(now + 0.36);
+      var gulp = audio.createOscillator();
+      var gulpGain = audio.createGain();
+      gulp.type = 'sine';
+      gulp.frequency.setValueAtTime(190, now + 0.38);
+      gulp.frequency.exponentialRampToValueAtTime(110, now + 0.5);
+      gulpGain.gain.setValueAtTime(0.0001, now + 0.38);
+      gulpGain.gain.linearRampToValueAtTime(SIP_VOLUME * 0.5, now + 0.4);
+      gulpGain.gain.exponentialRampToValueAtTime(0.001, now + 0.52);
+      gulp.connect(gulpGain);
+      gulpGain.connect(audio.destination);
+      gulp.start(now + 0.38);
+      gulp.stop(now + 0.54);
     },
 
     // Fade the street's lofi loop in or out. Safe to call every frame.

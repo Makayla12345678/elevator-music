@@ -684,6 +684,11 @@
       // Three sips: the cup rises to your mouth, then rests at your chest.
       var sip = (t - POUR_MS - SLIDE_MS) % (SIP_MS / 3);
       var drinking = sip > 300 && sip < 850;
+      var sipNo = Math.floor((t - POUR_MS - SLIDE_MS) / (SIP_MS / 3));
+      if (drinking && serving.lastSip !== sipNo) {
+        serving.lastSip = sipNo;
+        CC.sound.sip();
+      }
       var hx = Math.round(player.x - camX) + (drinking ? 1 : 5);
       var hy = FEET_Y - CC.H + (drinking ? 19 : 29);
       drawCup(hx, hy, drink, t < POUR_MS + SLIDE_MS + SIP_MS * 0.7);
