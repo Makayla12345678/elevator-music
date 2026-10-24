@@ -363,6 +363,26 @@ button:focus-visible {
 
 .about p { margin: 0 0 10px; }
 
+.faq {
+  margin-top: 28px;
+  text-align: left;
+}
+
+.faq__item {
+  border-top: 1px solid var(--brass-dim);
+  padding: 10px 0;
+}
+
+.faq__item:last-child { border-bottom: 1px solid var(--brass-dim); }
+
+.faq__item summary {
+  cursor: pointer;
+  color: var(--ash);
+  font-weight: 700;
+}
+
+.faq__item p { margin: 8px 0 0; }
+
 /* ---------- Narrow screens ---------- */
 
 @media (max-width: 760px) {
